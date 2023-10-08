@@ -80,4 +80,5 @@ $ npm i --save class-validator class-transformer
 $ npm i --save firebase-admin
 $ npm install @nestjs/passport passport passport-jwt
 $ npm install --save-dev @types/passport-jwt
+$ npm i passport-firebase-jwt
 ```

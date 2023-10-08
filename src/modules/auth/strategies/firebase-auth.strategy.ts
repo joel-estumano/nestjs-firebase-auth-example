@@ -1,31 +1,29 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { app } from 'firebase-admin';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy, ExtractJwt } from 'passport-firebase-jwt';
 
 @Injectable()
-export class FirebaseAuthStrategy extends PassportStrategy(
-    Strategy,
-    'firebase-auth',
-) {
-    constructor(@Inject('FIREBASE_APP') private firebaseApp: app.App,
-    private readonly configService: ConfigService) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: configService.get<string>('jwtConfig.jwt_secret')
-        });
-    }
-    async validate(token: string) {
-        const firebaseUser: any = await this.firebaseApp
-            .auth()
-            .verifyIdToken(token, true)
-            .catch((error) => {
-                throw new UnauthorizedException(error);
-            });
-        if (!firebaseUser) {
-            throw new UnauthorizedException();
-        }
-        return firebaseUser;
-    }
+export class FirebaseAuthStrategy extends PassportStrategy(Strategy) {
+  private logger = new Logger(FirebaseAuthStrategy.name);
+  constructor(@Inject('FIREBASE_APP') private firebaseApp: app.App) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    });
+  }
+
+  validate(token: any) {
+    return this.firebaseApp
+      .auth()
+      .verifyIdToken(token, true)
+      .catch((error) => {
+        this.logger.error(error);
+        throw new UnauthorizedException();
+      });
+  }
 }
