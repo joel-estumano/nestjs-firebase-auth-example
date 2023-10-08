@@ -78,4 +78,6 @@ Nest is [MIT licensed](LICENSE).
 $ npm i --save @nestjs/config
 $ npm i --save class-validator class-transformer
 $ npm i --save firebase-admin
+$ npm install @nestjs/passport passport passport-jwt
+$ npm install --save-dev @types/passport-jwt
 ```

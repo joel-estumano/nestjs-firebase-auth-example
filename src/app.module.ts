@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import firebaseConfig from './common/configs/firebase.config';
 import { HerosModule } from './modules/hero/heros.module';
 import { FirebaseModule } from './modules/firebase/firebase.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs/`);
 
@@ -13,6 +15,8 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs/`);
   imports: [
     HerosModule,
     FirebaseModule,
+    UsersModule,
+    AuthModule,
     ConfigModule.forRoot({
       envFilePath: envFilePath,
       isGlobal: true,
@@ -22,4 +26,4 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs/`);
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
