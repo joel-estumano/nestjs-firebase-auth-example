@@ -7,7 +7,7 @@ const firebaseProvider = {
   inject: [ConfigService],
   useFactory: (configService: ConfigService) => {
     const firebaseConfig = {
-      type: configService.get<string>('firebaseConfig.type '),
+      type: configService.get<string>('firebaseConfig.type'),
       project_id: configService.get<string>('firebaseConfig.project_id'),
       private_key_id: configService.get<string>('firebaseConfig.private_key_id'),
       private_key: configService.get<string>('firebaseConfig.private_key').replace(/\\n/g, '\n'),
